@@ -1,0 +1,58 @@
+Relatório 9 — Exercício 2 — Orquestra do Maestro
+
+class Musico
+  def initialize(nome, instrumento)
+    @nome = nome
+    @instrumento = instrumento
+  end
+
+  def tocar_partitura(obra)
+    raise NotImplementedError, "Implemente na subclasse"
+  end
+
+  def nome
+    @nome
+  end
+end
+
+class Pianista < Musico
+  def tocar_partitura(obra)
+    puts "#{@nome} toca piano na obra #{obra}"
+  end
+end
+
+class Violinista < Musico
+  def tocar_partitura(obra)
+    puts "#{@nome} toca violino na obra #{obra}"
+  end
+end
+
+class Maestro
+  def initialize
+    @musicos = []
+  end
+
+  def adicionar(musico)
+    @musicos << musico
+  end
+
+  def iniciar_concerto(obra)
+    @musicos.each do |m|
+      m.tocar_partitura(obra)
+    end
+  end
+
+  def ajustar_postura(estado)
+    @musicos.map do |m|
+      "#{m.nome} está em ritmo #{estado}!"
+    end
+  end
+end
+
+maestro = Maestro.new
+maestro.adicionar(Pianista.new("Kosei", "Piano"))
+maestro.adicionar(Violinista.new("Kaori", "Violino"))
+
+maestro.iniciar_concerto("Primavera")
+
+puts maestro.ajustar_postura("Allegro")

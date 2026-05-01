@@ -1,0 +1,56 @@
+Relatório 9 — Exercício 1 — AfterLife Drinks
+
+class BebidaAfterlife
+  def initialize(nome, custo_base)
+    @nome = nome
+    self.custo_base = custo_base
+  end
+
+  def nome
+    @nome
+  end
+
+  def custo_base
+    @custo_base
+  end
+
+  def custo_base=(valor)
+    if valor > 0
+      @custo_base = valor
+    else
+      puts "Valor inválido"
+    end
+  end
+
+  def preco_total
+    @custo_base
+  end
+
+  def to_string
+    "Bebida: #{@nome} | Valor Final: $#{preco_total}"
+  end
+end
+
+class DrinkIconico < BebidaAfterlife
+  def initialize(nome, custo_base, nivel_notoriedade)
+    super(nome, custo_base)
+    @nivel_notoriedade = nivel_notoriedade
+  end
+
+  def preco_total
+    @custo_base + (@nivel_notoriedade * 8)
+  end
+
+  def to_string
+    "Drink Icônico: #{@nome} | Valor Final: $#{preco_total}"
+  end
+end
+
+drinks = []
+drinks << DrinkIconico.new("Johnny Silverhand", 20, 5)
+drinks << DrinkIconico.new("V", 15, 3)
+drinks << DrinkIconico.new("Rogue", 25, 4)
+
+drinks.each do |d|
+  puts d.to_string
+end
