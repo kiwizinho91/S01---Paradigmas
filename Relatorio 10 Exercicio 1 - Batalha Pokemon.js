@@ -27,7 +27,7 @@ class Pikachu extends Pokemon {
   }
 
   atacar() {
-    console.log(`${this.nome} usou Thunderbolt! ⚡ É super eficaz!`);
+    console.log(`${this.nome} usou Thunderbolt!`);
   }
 
 class Charizard extends Pokemon {
@@ -36,7 +36,7 @@ class Charizard extends Pokemon {
   }
 
   atacar() {
-    console.log(`${this.nome} usou Lança-Chamas! 🔥 Um ataque devastador!`);
+    console.log(`${this.nome} usou Lança-Chamas!`);
   }
 }
 
