@@ -1,22 +1,14 @@
-// ============================================================
-//  Relatorio 10 - Exercicio 4
-//  Tema: Hunter x Hunter — Confronto com a Trupe Fantasma
-//  Conceitos: Herança, Polimorfismo, Agregação, forEach
-// ============================================================
-
-// ── Classe base: Hunter ──────────────────────────────────────
+//classes do melhor anime ja feito
 class Hunter {
   constructor(nome) {
     this.nome = nome;
   }
 
-  // Comportamento genérico — será sobrescrito
   lutar() {
     console.log(`${this.nome} adota uma postura de combate!`);
   }
 }
 
-// ── Subclasses com polimorfismo ──────────────────────────────
 class Gon extends Hunter {
   constructor() {
     super("Gon Freecss");
@@ -53,11 +45,10 @@ class Kurapika extends Hunter {
   }
 }
 
-// ── Agregação: TrupeFantasma recebe membros externos ────────
 class TrupeFantasma {
   constructor(nome, membros) {
     this.nome = nome;
-    this.membros = membros; // agregação: membros existem independentemente
+    this.membros = membros;
   }
 
   revelarMembros() {
@@ -68,7 +59,7 @@ class TrupeFantasma {
   }
 }
 
-// ── Main ─────────────────────────────────────────────────────
+// mian do melhor anime ja criado
 console.log("======= Hunter x Hunter — Yorknew City =======\n");
 
 const gon      = new Gon();
@@ -80,7 +71,6 @@ gon.lutar();
 killua.lutar();
 kurapika.lutar();
 
-// Trupe Fantasma revelada
 const trupeFantasma = new TrupeFantasma("Trupe Fantasma", [
   "Chrollo Lucilfer",
   "Hisoka Morow",
