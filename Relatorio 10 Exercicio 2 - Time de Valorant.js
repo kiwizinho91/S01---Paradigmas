@@ -1,10 +1,4 @@
-// ============================================================
-//  Relatorio 10 - Exercicio 2
-//  Tema: Time de Valorant
-//  Conceitos: Interface Simulada, Composição, Agregação, filter/forEach
-// ============================================================
-
-// ── Interface simulada: Habilidade ──────────────────────────
+//cleasses
 class Habilidade {
   usar() {
     throw new Error(
@@ -13,7 +7,6 @@ class Habilidade {
   }
 }
 
-// ── Habilidades concretas ────────────────────────────────────
 class Smoke extends Habilidade {
   usar() {
     console.log("💨 Smoke ativado! Área bloqueada com fumaça densa.");
@@ -38,12 +31,11 @@ class Armadilha extends Habilidade {
   }
 }
 
-// ── Composição: Agente possui uma Habilidade ────────────────
 class Agente {
   constructor(nome, funcao, habilidade) {
     this.nome = nome;
     this.funcao = funcao;
-    this._habilidade = habilidade; // composição: objeto Habilidade armazenado internamente
+    this._habilidade = habilidade;
   }
 
   get habilidade() {
@@ -56,10 +48,9 @@ class Agente {
   }
 }
 
-// ── Agregação: Time recebe array de Agentes já criados ───────
 class Time {
   constructor(agentes) {
-    this.agentes = agentes; // agregação: referência fraca — os agentes existem independentemente
+    this.agentes = agentes;
   }
 
   iniciarPartida() {
@@ -67,7 +58,6 @@ class Time {
     this.agentes.forEach((agente) => agente.entrarEmCombate());
   }
 
-  // Filtra agentes cuja habilidade é do tipo Smoke
   listarControladores() {
     return this.agentes.filter(
       (agente) => agente.habilidade instanceof Smoke
@@ -75,7 +65,7 @@ class Time {
   }
 }
 
-// ── Main ─────────────────────────────────────────────────────
+//coisas da main
 const omen    = new Agente("Omen",   "Controlador", new Smoke());
 const skye    = new Agente("Skye",   "Iniciador",   new Flash());
 const jett    = new Agente("Jett",   "Duelista",    new Dash());
