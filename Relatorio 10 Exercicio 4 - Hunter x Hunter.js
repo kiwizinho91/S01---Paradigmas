@@ -16,7 +16,7 @@ class Gon extends Hunter {
 
   lutar() {
     console.log(
-      `${this.nome} ativou Jajanken! ✊ "JAN... KEN... PON!" — Pedra!`
+      `${this.nome} ativou Jajanken!`
     );
   }
 }
@@ -28,7 +28,7 @@ class Killua extends Hunter {
 
   lutar() {
     console.log(
-      `${this.nome} ativou Godspeed! ⚡ Seus movimentos ultrapassam a percepção humana.`
+      `${this.nome} ativou Godspeed!`
     );
   }
 }
@@ -40,7 +40,7 @@ class Kurapika extends Hunter {
 
   lutar() {
     console.log(
-      `${this.nome} invocou as Correntes Imperativas! ⛓️  Scarlet Eyes ativados.`
+      `${this.nome} invocou as Correntes Imperativas!`
     );
   }
 }
