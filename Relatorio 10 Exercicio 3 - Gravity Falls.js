@@ -1,22 +1,15 @@
-// ============================================================
-//  Relatorio 10 - Exercicio 3
-//  Tema: Gravity Falls — Diário 3 e Cabana do Mistério
-//  Conceitos: Composição, Agregação, forEach
-// ============================================================
-
-// ── Criatura ─────────────────────────────────────────────────
+//classes
 class Criatura {
   constructor(nome, perigo) {
     this.nome = nome;
-    this.perigo = perigo; // ex: "Alto", "Médio", "Baixo"
+    this.perigo = perigo; 
   }
 }
 
-// ── Composição: Diario cria e controla seu próprio array ─────
 class Diario {
   constructor(numero) {
     this.numero = numero;
-    this._criaturas = []; // composição: array instanciado internamente
+    this._criaturas = [];
   }
 
   registrarCriatura(criatura) {
@@ -39,17 +32,15 @@ class Diario {
   }
 }
 
-// ── Personagem ───────────────────────────────────────────────
 class Personagem {
   constructor(nome) {
     this.nome = nome;
   }
 }
 
-// ── Agregação: CabanaMisterio recebe personagens já criados ──
 class CabanaMisterio {
   constructor(personagens) {
-    this.personagens = personagens; // agregação: referência, não propriedade
+    this.personagens = personagens; 
   }
 
   listarFuncionarios() {
@@ -60,10 +51,9 @@ class CabanaMisterio {
   }
 }
 
-// ── Main ─────────────────────────────────────────────────────
+// main
 console.log("======= Gravity Falls =======\n");
 
-// Composição: Diario gerencia suas próprias criaturas
 const diario = new Diario(3);
 
 const gnomo       = new Criatura("Gnomo",             "Médio");
@@ -76,7 +66,6 @@ diario.registrarCriatura(homemPeixe);
 
 diario.listarCriaturas();
 
-// Agregação: personagens criados fora da Cabana
 const stan   = new Personagem("Grunkle Stan");
 const mabel  = new Personagem("Mabel");
 const soos   = new Personagem("Soos");
