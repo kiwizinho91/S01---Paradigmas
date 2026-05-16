@@ -15,7 +15,7 @@ class Diario {
   registrarCriatura(criatura) {
     this._criaturas.push(criatura);
     console.log(
-      `📖 Diário ${this.numero}: "${criatura.nome}" registrada! ` +
+      `Diário ${this.numero}: "${criatura.nome}" registrada! ` +
         `(Nível de perigo: ${criatura.perigo})`
     );
   }
@@ -46,7 +46,7 @@ class CabanaMisterio {
   listarFuncionarios() {
     console.log("\n=== Funcionários da Cabana do Mistério ===");
     this.personagens.forEach((p) => {
-      console.log(`  👤 ${p.nome}`);
+      console.log(`${p.nome}`);
     });
   }
 }
