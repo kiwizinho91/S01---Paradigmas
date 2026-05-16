@@ -9,25 +9,25 @@ class Habilidade {
 
 class Smoke extends Habilidade {
   usar() {
-    console.log("💨 Smoke ativado! Área bloqueada com fumaça densa.");
+    console.log("Smoke ativado!");
   }
 }
 
 class Flash extends Habilidade {
   usar() {
-    console.log("💥 Flash lançado! Inimigos cegados por 2 segundos.");
+    console.log("Flash lançado!");
   }
 }
 
 class Dash extends Habilidade {
   usar() {
-    console.log("💨 Dash executado! Agente reposicionado em alta velocidade.");
+    console.log("Dash executado!.");
   }
 }
 
 class Armadilha extends Habilidade {
   usar() {
-    console.log("🕸️  Armadilha posicionada! Inimigo será detectado e lentificado.");
+    console.log("Armadilha posicionada!");
   }
 }
 
