@@ -14,208 +14,341 @@
 ---
 
 ## Histórico de Prompts e Respostas
+_________________________________________________________________________________________________________________________
 
-(COLOQUEI % PARA DIVIDIR AS PROMPTS PARA FICAR MAIS FACIL DE IDENTIFICAR)
+estou fazendo uma atividade de paradigmas da programcao q eh esse pdf baseado no enunciado pq meu codgio n esta rodando e esta dando errado data Bebida = Bebida { nome :: String , tipo :: String , preco :: Double } data StatusPedido = Aberto | Entregue | Cancelado data Pedido = Pedido { bebidas :: [Bebida] , status :: StatusPedido } valorTotalPedido :: Pedido -> Double valorTotalPedido p | Cancelado <- status p = 0.0 | otherwise = sum (map preco (bebidas p)) primeiraBebida : Pedido -> String primeiraBebida p = case bebidas p of [] -> "nenhuma bebida no pedido" (x:_) -> nome x main :: IO () main = do let b1 = Bebida "cafe dodia" "quente" 5.0 b2 = Bebida "suco de laranja" "frio" 7.5 b3 = Bebida "esprresso" "quente" 6.0 let pedido1 = Pedido [b1, b2] Entregue let pedido2 = Pedido [b3] Cancelado putStrLn ("total pedido 1: R$ " ++ show (valorTotalPedido pedido1)) putStrLn ("total pedido 2: R$ " ++ show (valorTotalPedido pedido2)) putStrLn ("primeira bebida pedido 1: " ++ primeiraBebida pedido1)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+_________________________________________________________________________________________________________________________
 
-estou fazendo uma atividade de poo e o codigo nao esta rodando identifique corrija e me mande onde esta errado
+Pelo enunciado do PDF, a lógica está certa. O problema é que seu código tem alguns erros de sintaxe do Haskell.
 
-public class CafeGourmet extends Cafe {
-    private double bonusAroma;
+1. Erro na assinatura da função
 
-    public CafeGourmet(String nome, double preco, double bonusAroma) {
-        super(nome, preco);
-        this.bonusAroma = bonusAroma;
-    }
+Você escreveu:
 
-    @Override
-    public int calcularPrecoFinal() {
-        return getPreco() + bonusAroma;
-    }
-} onde esta errado
+primeiraBebida : Pedido -> String
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Em Haskell, a assinatura de tipo usa dois pontos:
 
-vou te mandar as classes do outro exercicio
-public class Alien extends Entidade implements Rastreavel {
-    private Poder poder1;
+primeiraBebida :: Pedido -> String
+2. Erro na definição dos tipos data
 
-    public Alien(String nome) {
-        super(nome);
-        poder = new Poder("Raio Ionico", 88);
-    }
+Se você quer usar a sintaxe de registros (campos nomeados), precisa derivar pelo menos Show para conseguir imprimir depois sem problemas:
 
-    @Override
-    public String obterCoordenadas() {
-        return "Alien [" + getNome() + "] -> coordenadas: lat=-23.5, lon=46.6";
-    }
-}
+data Bebida = Bebida
+  { nome  :: String
+  , tipo  :: String
+  , preco :: Double
+  } deriving Show
+
+data StatusPedido = Aberto | Entregue | Cancelado
+  deriving Show
+
+data Pedido = Pedido
+  { bebidas :: [Bebida]
+  , status  :: StatusPedido
+  } deriving Show
+3. Código completo corrigido
+data Bebida = Bebida
+  { nome  :: String
+  , tipo  :: String
+  , preco :: Double
+  } deriving Show
+
+data StatusPedido = Aberto | Entregue | Cancelado
+  deriving Show
+
+data Pedido = Pedido
+  { bebidas :: [Bebida]
+  , status  :: StatusPedido
+  } deriving Show
+
+valorTotalPedido :: Pedido -> Double
+valorTotalPedido p
+  | Cancelado <- status p = 0.0
+  | otherwise = sum (map preco (bebidas p))
+
+primeiraBebida :: Pedido -> String
+primeiraBebida p =
+  case bebidas p of
+    []    -> "nenhuma bebida no pedido"
+    (x:_) -> nome x
+
+main :: IO ()
+main = do
+  let b1 = Bebida "cafe do dia" "quente" 5.0
+      b2 = Bebida "suco de laranja" "frio" 7.5
+      b3 = Bebida "espresso" "quente" 6.0
+
+  let pedido1 = Pedido [b1, b2] Entregue
+  let pedido2 = Pedido [b3] Cancelado
+
+  putStrLn ("total pedido 1: R$ " ++ show (valorTotalPedido pedido1))
+  putStrLn ("total pedido 2: R$ " ++ show (valorTotalPedido pedido2))
+  putStrLn ("primeira bebida pedido 1: " ++ primeiraBebida pedido1)
+4. Se ainda estiver dando erro
+
+Me mande a mensagem exata do compilador (GHCi), porque pelo enunciado do exercício a implementação está seguindo corretamente o que foi pedido: uso de data, guards, map, sum e pattern matching na lista de bebidas.
+
+_________________________________________________________________________________________________________________________
+
+data Bebida = Bebida { nome :: String , tipo :: String , preco :: Double } deriving Show data StatusPedido = Aberto | Entregue | Cancelado deriving Show data Pedido = Pedido { bebidas :: [Bebida] , status :: StatusPedido } deriving Show valorTotalPedido :: Pedido -> Double valorTotalPedido p | Cancelado <- status p = 0.0 | otherwise = sum (map preco (bebidas p)) primeiraBebida :: Pedido -> String primeiraBebida p = case bebidas p of [] -> "nenhuma bebida no pedido" (x:_) -> nome x main :: IO () main = do let b1 = Bebida "cappucino com canela" "quente" 2.0 b2 = Bebida "suco" "frio" 5.0 b3 = Bebida "cafe curto" "quente" 1.5 let pedido1 = Pedido [b1, b2] Entregue let pedido2 = Pedido [b3] Cancelado putStrLn ("total pedido 1: R$ " ++ show (valorTotalPedido pedido1)) putStrLn ("total pedido 2: R$ " ++ show (valorTotalPedido pedido2)) putStrLn ("primeira bebida pedido 1: " ++ primeiraBebida pedido1) funciona?
+
+_________________________________________________________________________________________________________________________
+
+Sim, esse código está correto e deve compilar normalmente no GHC.
+
+A saída esperada será algo parecido com:
+
+total pedido 1: R$ 7.0
+total pedido 2: R$ 0.0
+primeira bebida pedido 1: cappucino com canela
+
+Porque:
+
+pedido1 contém bebidas de R$ 2,00 e R$ 5,00 → total = R$ 7,00.
+pedido2 está Cancelado → a guard retorna 0.0.
+A primeira bebida de pedido1 é "cappucino com canela".
+
+Se estiver dando erro no VS Code/GHCi, os problemas mais comuns são:
+
+Arquivo não salvo com extensão .hs.
+Falta de uma linha module Main where (alguns ambientes exigem).
+Você está compilando um arquivo antigo.
+O GHC não está instalado/configurado corretamente.
+
+Qual é a mensagem de erro que aparece quando você executa?
+
+ghci seuArquivo.hs
+
+ou
+
+runghc seuArquivo.hs
+
+Cole o erro exato que eu identifico o problema.
+
+_________________________________________________________________________________________________________________________
+
+ja descobri onde esta o problema
+
+_________________________________________________________________________________________________________________________
+
+Boa! Qual era o problema?
+
+Se foi erro de compilação, sintaxe ou alguma configuração do GHC/VS Code, me conta. Pode ser útil também para conferir se não tem mais nenhum detalhe que possa dar problema na hora de entregar a atividade.
+
+_________________________________________________________________________________________________________________________
+
+data Item = Item { nomeItem :: String , categoria :: String , precoItem :: Double } data StatusCompra = Pendente | Concluida | Cancelada data Compra = Compra { itens :: [Item] , statusCompra :: StatusCompra } totalItens :: [Item] -> Double totalItens xs = sum (map precoItem xs) valorFinal :: Compra -> Double valorFinal c | statusCompra c == Cancelada = 0.0 | total > 200 = total * 0.9 | otherwise = total where total = totalItens (itens c) main :: IO () main = do let i1 = Item "escudo" "equipamento" 150.0 i2 = Item "pocao" "consumivel" 45.0 i3 = Item "arco" "equipamento" 80.0 let compra = Compra [i1, i2, i3] Concluida putStrLn ("valor final da compra: R$ " ++ show (valorFinal compra)) tem algum erro aqui?
+
+_________________________________________________________________________________________________________________________
+
+Tem um erro provável aí.
+
+Você está usando:
+
+| statusCompra c == Cancelada = 0.0
+
+Para comparar valores com ==, o tipo precisa implementar Eq. Seu StatusCompra não derivou Eq:
+
+data StatusCompra = Pendente | Concluida | Cancelada
+
+Deveria ser:
+
+data StatusCompra = Pendente | Concluida | Cancelada
+  deriving (Eq, Show)
+
+Ou então seguir o mesmo estilo do Exercício 1 usando pattern matching no guard:
+
+valorFinal :: Compra -> Double
+valorFinal c
+  | Cancelada <- statusCompra c = 0.0
+  | total > 200                 = total * 0.9
+  | otherwise                   = total
+  where total = totalItens (itens c)
+
+Assim você nem precisa de Eq.
+
+Fora isso, a lógica está correta para o Exercício 2 do PDF:
+
+Soma os preços com map e sum.
+Retorna 0.0 se cancelada.
+Aplica 10% de desconto quando passar de 200.
+Retorna o valor normal nos demais casos.
+
+Com os seus valores:
+
+150 + 45 + 80 = 275
+
+Como 275 > 200, o resultado será:
+
+275 * 0.9 = 247.5
+
+Saída:
+
+valor final da compra: R$ 247.5
+_________________________________________________________________________________________________________________________
+
+data Banda = Banda
+  { nomeBanda :: String
+  , genero    :: String
+  , cache     :: Double
+  }
 
 
-public abstract class Entidade {
-    private String nome;
+data StatusEvento = Ativo | Encerrado | Cancelado
+data Evento = Evento
+  { bandas      :: [Banda]
+  , statusEvento :: StatusEvento
+  }
 
-    public Entidade(String nome) {
-        this.nome = nome;
-    }
 
-    public String getNome() {
-        return nome;
-    }
-}
+custoTotalEvento :: Evento -> Double
+custoTotalEvento e
+  | statusEvento e == Cancelado = 0.0
+  | otherwise                   = total * 1.2
+  where total = sum (map cache (bandas  e))
 
-public class Main {
-    public static void main(String[] args) {
-        RegistroOculto registro = new RegistroOculto();
+bandaAbertura :: Evento -> String
+bandaAbertura e = case bandas e of
+  []    -> "nenhuma banda no evento"
+  (x:_) -> nomeBanda x
 
-        Alien a1 = new Alien("Zorg");
-        Alien a2 = new Alien("Vex");
-        Youkai y1 = new Youkai("Kitsune");
-        Youkai y2 = new Youkai("Oni");
+bandaEncerramento :: Evento -> String
+bandaEncerramento e
+  | null (bandas e) = "nenhuma banda no evento"
+  | otherwise       = nomeBanda (last (bandas e))
 
-        registro.registrarEntidade(a1);
-        registro.registrarEntidade(a2);
-        registro.registrarEntidade(y1);
-        registro.registrarEntidade(y2);
-        registro.registrarEntidade(a1);
+main :: IO ()
+main = do
+  let b1 = Banda "linkin park" "rock" 7000.0
+      b2 = Banda "deftones" "rock" 5000.0
+      b3 = Banda "m4rkin" "geek" 4100.0
 
-        registro.listarEntidades();
-    }
-}
+  let ev1 = Evento [b1, b2, b3] Ativo
+  let ev2 = Evento [b2, b3] Encerrado
+  let ev3 = Evento [b1] Cancelado
+  putStrLn ("custo: R$ " ++ show (custoTotalEvento ev1))
+  putStrLn ("abertura: " ++ bandaAbertura ev1)
+  putStrLn ("encerramento: " ++ bandaEncerramento ev1)
 
-public class Poder {
-    private String nome;
-    private int intensidade;
+  putStrLn ("custo: R$ " ++ show (custoTotalEvento ev2))
+  putStrLn ("abertura: " ++ bandaAbertura ev2)
+  putStrLn ("encerramento: " ++ bandaEncerramento ev2)
 
-    public Poder(String nome, int intensidade) {
-        this.nome = nome;
-        this.intensidade = intensidade;
-    }
+  putStrLn ("custo: R$ " ++ show (custoTotalEvento ev3))
+  putStrLn ("abertura: " ++ bandaAbertura ev3)
+  putStrLn ("encerramento: " ++ bandaEncerramento ev3) pq n ta rodando?
 
-    public String getNome() {
-        return nome;
-    }
+_________________________________________________________________________________________________________________________
 
-    public int getIntensidade() {
-        return intensidade;
-    }
-}
+O problema mais provável é exatamente o mesmo do exercício anterior.
 
-public interface Rastreavel {
-    String obterCoordenadas();
-}
+Você está usando:
 
-import java.util.HashMap;
+| statusEvento e == Cancelado = 0.0
 
-public class RegistroOculto {
-    private HashMap<String, Entidade> mapa;
+Mas seu tipo:
 
-    public RegistroOculto() {
-        mapa = new HashMap<>();
-    }
+data StatusEvento = Ativo | Encerrado | Cancelado
 
-    public void registrarEntidade(Entidade e) {
-        if (mapa.containsKey(e.getNome())) {
-            System.out.println("aviso: " + e.getNome() + " ja foi registrado antes");
-            return;
-        }
-        mapa.put(e.getNome(), e);
-    }
+não implementa Eq, então o operador == não funciona.
 
-    public void listarEntidades() {
-        for (String chave : mapa.keySet()) {
-            Entidade e = mapa.get(chave);
-            Rastreavel r = (Rastreavel) e;
-            System.out.println(r.obterCoordenadas());
-        }
-    }
-}
+Opção 1 (mais simples)
 
-public class Youkai extends Entidade implements Rastreavel {
-    private Poder poder;
+Troque para:
 
-    public Youkai(String nome) {
-        super(nome);
-        poder = new Poder("Ilusao Espiritual", 74);
-    }
+data StatusEvento = Ativo | Encerrado | Cancelado
+  deriving (Eq, Show)
+Opção 2 (igual ao Exercício 1)
 
-    @Override
-    public String obterCoordenadas() {
-        return "Youkai [" + getNome() + "] -> coordenadas: lat=-15.7, lon=48.0";
-    }
-}
+Nem use ==:
 
-pq n esta rodando
+custoTotalEvento :: Evento -> Double
+custoTotalEvento e
+  | Cancelado <- statusEvento e = 0.0
+  | otherwise                   = total * 1.2
+  where total = sum (map cache (bandas e))
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Outro detalhe: se aparecer erro falando que Cancelado está definido mais de uma vez, é porque você colocou os exercícios 1, 2 e 3 no mesmo arquivo.
 
-entendi a correcao 2
+Você já tem:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+data StatusPedido = Aberto | Entregue | Cancelado
 
-nao entendi a correcao 2
+e depois:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+data StatusEvento = Ativo | Encerrado | Cancelado
 
-aviso: Zorg ja foi registrado antes
-Alien [Zorg] -> coordenadas: lat=-23.5, lon=46.6
-Youkai [Kitsune] -> coordenadas: lat=-15.7, lon=48.0
-Alien [Vex] -> coordenadas: lat=-23.5, lon=46.6
-Youkai [Oni] -> coordenadas: lat=-15.7, lon=48.0
-Process finished with exit code 0 esta saindo isso
+Em Haskell, construtores precisam ter nomes únicos dentro do módulo. Nesse caso você teria que renomear, por exemplo:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+data StatusEvento = Ativo | Encerrado | EventoCancelado
 
-onde eu corrijo pra sair bonitinho
+e usar:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+| EventoCancelado <- statusEvento e = 0.0
 
-import java.util.ArrayList;
+Se ainda não compilar, me mande a mensagem exata do erro do GHC. O código que você postou está correto em termos de lógica; o problema deve ser de compilação (falta de Eq ou construtor Cancelado duplicado).
 
-public class Main {
-    public static void main(String[] args) {
-        Lagosta lagosta = new Lagosta("Lagosta Kelpie");
-        Cogumelo cogumelo = new Cogumelo("Cogumelo Mandragora");
+_________________________________________________________________________________________________________________________
 
-        Prato prato1 = new Prato("Lagosta Grelhada", lagosta);
-        Prato prato2 = new Prato("Cogumelo Refogado", cogumelo);
+mas qual a brisa de usar isso?
 
-        prato1.servir();
-        prato2.servir();
+_________________________________________________________________________________________________________________________
 
-        ArrayList<Prato> cardapio = new ArrayList<>();
-        cardapio.add(prato1);
-        cardapio.add(prato2);
+A "brisa" do deriving (Eq) é que o operador == não sabe comparar tipos que você criou sozinho.
 
-        System.out.println("\ncardapio completo da expedicao:");
-        for (Prato p : cardapio) {
-            p.servir()
-        }
-    }
-} onde esta o erro na main?
+Por exemplo, isso funciona:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+5 == 5
 
---- prato: Lagosta Grelhada ---
-Lagosta Kelpie: senshi grelha na manteiga com ervas das cavernas
-temperado com: sal das masmorras
---- prato: Cogumelo Refogado ---
-Cogumelo Mandragora: senshi resfoga no azeite com alho selvagem
-temperado com: sal das masmorras
+porque Int já implementa Eq.
 
-cardapio completo da expedicao:
---- prato: Lagosta Grelhada ---
-Lagosta Kelpie: senshi grelha na manteiga com ervas das cavernas
-temperado com: sal das masmorras
---- prato: Cogumelo Refogado ---
-Cogumelo Mandragora: senshi resfoga no azeite com alho selvagem
-temperado com: sal das masmorras
-ta certo isso?
+Mas quando você cria:
 
-LINK:https://chatgpt.com/share/6a19f6de-bb6c-83e9-a586-0bf8bc848fc6
+data StatusEvento = Ativo | Encerrado | Cancelado
+
+o Haskell não assume automaticamente que dois StatusEvento podem ser comparados.
+
+Então:
+
+statusEvento e == Cancelado
+
+gera um erro do tipo:
+
+No instance for (Eq StatusEvento)
+
+Quando você escreve:
+
+data StatusEvento = Ativo | Encerrado | Cancelado
+  deriving Eq
+
+o compilador gera automaticamente algo equivalente a:
+
+Ativo == Ativo = True
+Encerrado == Encerrado = True
+Cancelado == Cancelado = True
+_ == _ = False
+
+Mas no seu PDF o professor está incentivando usar guards com pattern matching, então eu faria assim:
+
+custoTotalEvento e
+  | Cancelado <- statusEvento e = 0.0
+  | otherwise                   = total * 1.2
+  where total = sum (map cache (bandas e))
+
+Isso não precisa de Eq e segue mais a ideia de Programação Funcional que ele está mostrando nos slides (pattern matching em vez de comparações).
+
+Então, para a prova/trabalho:
+
+Se usar == → precisa de deriving Eq.
+Se usar | Cancelado <- statusEvento e → não precisa de Eq.
+Pelo material do professor, eu apostaria que ele prefere a segunda forma.
+_________________________________________________________________________________________________________________________
+
+
+LINK:https://chatgpt.com/share/6a236b6d-6b1c-83e9-b531-d0e0496ca7ff
 
 ## Relatório de Satisfação e Aprendizado
 
-Utilizei para corrigir erros, principalmente quando o codigo nao rodava e aprender algumas coisa assim ele me devolvia o codigo corrigido.
-Inclusive utilizei o gpt para fazer esse modelo de Report para ficar bonitinho
+utilizei ele para aprender principalemte a parte do (deriving (Eq)) que eu esquecia e também usei para corrigir erros e quando o código não rodava (aconteceu varias vezes)
