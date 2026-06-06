@@ -24,7 +24,7 @@ Pelo enunciado do PDF, a lógica está certa. O problema é que seu código tem 
 
 1. Erro na assinatura da função
 
-Você escreveu:
+Você escreveu
 
 primeiraBebida : Pedido -> String
 
