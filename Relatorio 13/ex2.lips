@@ -1,0 +1,43 @@
+(defstruct criatura
+  nome
+  ambiente
+  periculosidade
+  vidaMedia)
+
+
+(defun descricaoCriatura (c)
+  (format nil "~a | Ambiente: ~a | Periculosidade: ~a"
+          (criatura-nome c)
+          (criatura-ambiente c)
+          (criatura-periculosidade c)))
+
+(defun filtraPorPerigo (lista)
+  (remove-if 
+    (lambda (c) 
+      (eq (criatura-periculosidade c) 'baixa))
+    lista))
+
+(defun relatorioProfundidade (lista)
+  (let ((deep (remove-if-not (lambda (c) (string= (criatura-ambiente c) "Deep")) lista)))
+    (mapcar (lambda (c)
+              (format nil "[~a]: Vive em [~a]" (criatura-nome c) (criatura-ambiente c)))
+            deep)))
+
+(defun main ()
+  (let ((catalogo (list
+                    (make-criatura :nome "Peeper" :ambiente "Safe Shallows" :periculosidade 'baixa :vidaMedia 2)
+                    (make-criatura :nome "Reaper Leviathan" :ambbiente "Dunes" :periculosidade 'alta :vidaMedia 50)
+                    (make-criatura :nome "Crabsquid" :ambiente "Deep" :periculosidade 'media :vidaMedia 15)
+                    (make-criatura :nome "Ghost Leviathan" :ambiente "Deep" :periculosidade 'alta :vidaMedia 60))))
+    (format t "=== Catalogo Completo ===~%")
+    (dolist (c catalogo)
+      (format t "~a~%" (descricaoCriatura c)))
+
+    (format t "~%=== Criaturas Perigosas ===~%")
+    (dolist (c (filtraPorPerigo catalogo))
+      (format t "~a~%" (descricaoCriatura c)))
+
+    (format t "~%=== Relatorio Profundidade ===~%")
+    (dolist (linha (relatorioProfundidade catalogo))
+      (format t "~a~%" linha))))
+(main)
